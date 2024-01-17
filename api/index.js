@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 
+import path from "path";
 
 mongoose.connect("mongodb+srv://Auth:Tt9cY7U84PBDw2JV@cluster0.uzgdlav.mongodb.net/?retryWrites=true&w=majority").then(()=>
 {
@@ -15,7 +16,16 @@ mongoose.connect("mongodb+srv://Auth:Tt9cY7U84PBDw2JV@cluster0.uzgdlav.mongodb.n
     console.log(e)
 })
 
+const __dirname=path.resolve();
+
 const app=express();
+
+app.use(express.static(path.join(__dirname,'/Client/dist')))
+
+app.get('*',(req,res)=>
+{
+    res.sendFile(path.join(__dirname,'/Client/dist/index.html'))
+});
 
 app.use(express.json());
 
